@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <tbody>
+            <tr>
+                <th width='100px'>ID</th>
+                <td th:text="${glass.id}"></td>
+                <th width='100px'>班级名称编号</th>
+                <td>[[${glass.title}]]（[[${glass.name}]]）</td>
+            </tr>
+            <tr>
+                <th>创建用户</th>
+                <td th:text="${glass.createBy?.nickname}"></td>
+                <th>更新用户</th>
+                <td th:text="${glass.updateBy?.nickname}"></td>
+            </tr>
+            <tr>
+                <th>创建时间</th>
+                <td th:text="${#dates.format(glass.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <th>最后修改</th>
+                <td th:text="${#dates.format(glass.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <th>备注</th>
+                <td th:text="${glass.remark}" colspan="4"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:replace="/common/fragment :: log(${glass})"></div>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>
