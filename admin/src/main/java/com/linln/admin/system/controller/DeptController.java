@@ -8,7 +8,9 @@ import com.linln.admin.core.log.action.StatusAction;
 import com.linln.admin.core.log.annotation.ActionLog;
 import com.linln.admin.core.web.TimoExample;
 import com.linln.admin.system.domain.Dept;
+import com.linln.admin.system.domain.User;
 import com.linln.admin.system.service.DeptService;
+import com.linln.admin.system.service.UserService;
 import com.linln.admin.system.validator.DeptForm;
 import com.linln.core.utils.FormBeanUtil;
 import com.linln.core.utils.ResultVoUtil;
@@ -23,9 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author wuyz
@@ -37,6 +37,8 @@ public class DeptController {
 
     @Autowired
     private DeptService deptService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 跳转到列表页面
@@ -71,6 +73,41 @@ public class DeptController {
         Sort sort = new Sort(Sort.Direction.ASC, "sort");
         List<Dept> list = deptService.getList(example, sort);
         return ResultVoUtil.success(list);
+    }
+
+
+    /**
+     * 部门数据列表和学生列表
+     */
+    @GetMapping("/listStu")
+    @RequiresPermissions("/dept/index")
+    @ResponseBody
+    public ResultVo listStu(Dept dept) {
+        // 创建匹配器，进行动态查询匹配
+        ExampleMatcher matcher = ExampleMatcher.matching().
+                withMatcher("title", match -> match.contains());
+
+        // 获取用户列表
+        Example<Dept> example = TimoExample.of(dept, matcher);
+        Sort sort = new Sort(Sort.Direction.ASC, "sort");
+        List<Dept> list = deptService.getList(example, sort);
+        List<Dept> list2=new ArrayList<>();
+        for (Dept dt:list) {
+            list2.add(dt);
+            List<User> users=userService.findByDept(dt);
+            int count=1;
+            for (User u:users) {
+                Dept dept1=new Dept();
+                dept1.setId(u.getId());
+                dept1.setPid(dt.getId());
+                dept1.setTitle(u.getNickname());
+                dept1.setSort(count);
+                dept1.setPids(dt.getPids()+",["+dt.getId()+"]");
+                list2.add(dept1);
+                count++;
+            }
+        }
+        return ResultVoUtil.success(list2);
     }
 
     /**

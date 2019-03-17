@@ -231,7 +231,7 @@ a{
 .layui-layout-admin .layui-side{
 	top: 50px;
 	width: 220px;
-    background-color: #92eeff !important;
+    background-color: #ffc283 !important;
     -webkit-transition: left 0.3s ease, width 0.3s ease;
 	-o-transition: left 0.3s ease, width 0.3s ease;
 	transition: left 0.3s ease, width 0.3s ease;
@@ -282,7 +282,7 @@ a{
 	margin-right: 2px;
 }
 .layui-layout-admin .layui-side .layui-nav{
-	background-color: #222d32;
+	background-color: #ffdcb9;
 }
 .layui-layout-admin .layui-side a{
 	font-size: 15px;
@@ -297,7 +297,7 @@ a{
 	font-size: 16px;
 }
 .layui-layout-admin .layui-side .layui-nav-item>a:hover{
-	background-color: #222d32;
+	background-color: #ffdcb9;
 }
 .layui-layout-admin .layui-side .layui-nav-child{
 	padding: 4px 0;

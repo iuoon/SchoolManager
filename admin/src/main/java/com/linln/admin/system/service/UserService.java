@@ -1,6 +1,7 @@
 package com.linln.admin.system.service;
 
 import com.linln.admin.core.enums.StatusEnum;
+import com.linln.admin.system.domain.Dept;
 import com.linln.admin.system.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,4 +67,6 @@ public interface UserService {
      */
     @Transactional
     Integer updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<User> findByDept(Dept dept);
 }

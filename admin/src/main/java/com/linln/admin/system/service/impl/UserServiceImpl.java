@@ -152,4 +152,9 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.updateStatus(statusEnum.getCode(),idList);
     }
+
+    @Override
+    public List<User> findByDept(Dept dept) {
+        return userRepository.findByDept(dept);
+    }
 }

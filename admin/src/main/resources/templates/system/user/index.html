@@ -80,6 +80,8 @@
                     <th class="sortable" data-field="sex">性别</th>
                     <th class="sortable" data-field="phone">电话</th>
                     <th class="sortable" data-field="email">邮箱</th>
+                    <th data-field="roles">角色</th>
+                    <th data-field="glasses">班级</th>
                     <th class="sortable" data-field="createDate">创建时间</th>
                     <th>状态</th>
                     <th>操作</th>
@@ -95,6 +97,8 @@
                     <td th:text="${#dicts.keyValue('USER_SEX', item.sex)}">性别</td>
                     <td th:text="${item.phone}">电话</td>
                     <td th:text="${item.email}">邮箱</td>
+                    <td><a th:each="item1:${item.roles}"><span th:text="${item1.title}"></span>&nbsp;&nbsp;</a></td>
+                    <td><a th:each="item2:${item.glasses}"><span th:text="${item2.title}"></span>&nbsp;&nbsp;</a></td>
                     <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                     <td th:text="${#dicts.dataStatus(item.status)}">状态</td>
                     <td>

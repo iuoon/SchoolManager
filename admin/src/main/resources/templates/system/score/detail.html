@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>主键ID</th>
+                <td th:text="${score.id}"></td>
+                <th>学生姓名</th>
+                <td th:text="${score.userId}"></td>
+            </tr>
+            <tr>
+                <th>课程名称</th>
+                <td th:text="${score.courseId}"></td>
+                <th>学业基础分</th>
+                <td th:text="${score.score}"></td>
+            </tr>
+            <tr>
+                <th>行为基础分</th>
+                <td th:text="${score.behaviorScore}"></td>
+            </tr>
+            <tr>
+                <th>创建时间</th>
+                <td th:text="${#dates.format(score.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <th>更新时间</th>
+                <td th:text="${#dates.format(score.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                <th>创建者</th>
+                <td th:text="${score.createBy?.nickname}"></td>
+                <th>更新者</th>
+                <td th:text="${score.updateBy?.nickname}"></td>
+            </tr>
+            <tr>
+                <th>备注</th>
+                <td th:text="${score.remark}" colspan="4"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

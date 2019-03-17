@@ -389,14 +389,14 @@ public class UserController {
 
         model.addAttribute("id", id);
         model.addAttribute("list", list);
-        return "/system/user/role";
+        return "/system/user/glass";
     }
 
     /**
      * 保存班级分配信息
      */
-    @PostMapping("/glasss")
-    @RequiresPermissions("/user/glasss")
+    @PostMapping("/glass")
+    @RequiresPermissions("/user/glass")
     @ResponseBody
     @ActionLog(key = UserAction.EDIT_GLASS, action = UserAction.class)
     public ResultVo authGlass(

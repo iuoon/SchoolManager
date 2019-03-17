@@ -12,9 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author wuyz
@@ -61,8 +59,6 @@ public class Course implements Serializable {
 	private Integer score;
 	// 上课时间
 	private String course_time;
-	// 上课老师
-	private Long teacher_id;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "sys_course_user",
@@ -70,4 +66,6 @@ public class Course implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
 	@JsonIgnore
 	private Set<User> users = new HashSet<>(0);
+
+
 }
