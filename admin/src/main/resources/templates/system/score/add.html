@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <link rel="stylesheet" th:href="@{/css/code.css}">
+    <link rel="stylesheet" th:href="@{/lib/formSelects-v4/formSelects-v4.css}">
     <link rel="stylesheet" th:href="@{/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
 </head>
 <body>
@@ -10,8 +12,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">学生姓名</label>
             <div class="layui-input-inline">
-                <input class="layui-input select-tree" th:attr="data-url=@{/dept/listStu}, data-value=${course?.dept?.id}"
-                       type="text" name="dept"  placeholder="请选择系别" th:value="${course?.dept?.title}">
+                <input class="layui-input select-tree" th:attr="data-url=@{/dept/listStu}"
+                       type="text" name="dept"  placeholder="请选择系别" th:value="${score?.dept?.title}">
             </div>
         </div>
         <div class="layui-form-item">

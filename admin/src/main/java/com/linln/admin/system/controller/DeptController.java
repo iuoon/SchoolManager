@@ -98,11 +98,13 @@ public class DeptController {
             int count=1;
             for (User u:users) {
                 Dept dept1=new Dept();
-                dept1.setId(u.getId());
+                dept1.setId(u.getId()*1000);
                 dept1.setPid(dt.getId());
                 dept1.setTitle(u.getNickname());
                 dept1.setSort(count);
                 dept1.setPids(dt.getPids()+",["+dt.getId()+"]");
+                dept1.setStatus((byte)1);
+                dept1.setRemark(u.getId()+"");
                 list2.add(dept1);
                 count++;
             }
