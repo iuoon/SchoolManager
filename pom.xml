@@ -7,7 +7,7 @@
     <description>快速搭建后台管理的系统</description>
 
     <groupId>com.linln</groupId>
-    <artifactId>SchoolManager</artifactId>
+    <artifactId>schoolmanage</artifactId>
     <version>1.0.8</version>
     <packaging>pom</packaging>
 
