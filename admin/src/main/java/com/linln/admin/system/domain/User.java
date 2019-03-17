@@ -67,4 +67,11 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>(0);
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "sys_user_glass",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "glass_id"))
+    @JsonIgnore
+    private Set<Glass> glasses = new HashSet<>(0);
 }

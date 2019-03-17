@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+    <div class="timo-detail-page">
+        <div class="timo-detail-title">基本信息</div>
+        <table class="layui-table timo-detail-table">
+            <colgroup>
+                <col width="100px"><col>
+                <col width="100px"><col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>主键ID</th>
+                <td th:text="${course.id}"></td>
+                <th>课程名称</th>
+                <td th:text="${course.name}"></td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                <th>系别</th>
+                <td th:text="${course.dept?.title}"></td>
+                <th>学分</th>
+                <td th:text="${course.score}"></td>
+            </tr>
+            <tr>
+                <th>上课时间</th>
+                <td th:text="${course.course_time}"></td>
+                <th>上课老师</th>
+                <td><a th:each="item:${course.users}"><span th:text="${item.nickname}"></span>&nbsp;&nbsp;</a></td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                <th>创建时间</th>
+                <td th:text="${#dates.format(course.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <th>更新时间</th>
+                <td th:text="${#dates.format(course.updateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <th>创建者</th>
+                <td th:text="${course.createBy?.nickname}"></td>
+                <th>更新者</th>
+                <td th:text="${course.updateBy?.nickname}"></td>
+            </tr>
+            <tr>
+                <th>备注</th>
+                <td th:text="${course.remark}" colspan="4"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

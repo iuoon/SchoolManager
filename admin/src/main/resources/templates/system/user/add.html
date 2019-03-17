@@ -36,7 +36,7 @@
             <label class="layui-form-label">系别</label>
             <div class="layui-input-inline">
                 <input class="layui-input select-tree" th:attr="data-url=@{/dept/list}, data-value=${user?.dept?.id}"
-                       type="text" name="dept"  placeholder="请选择所在院系" th:value="${user?.dept?.title}">
+                       type="text" name="dept"  placeholder="请选择系别" th:value="${user?.dept?.title}">
             </div>
         </div>
         <div class="layui-form-item">

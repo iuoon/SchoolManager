@@ -12,10 +12,12 @@ import com.linln.admin.core.log.annotation.ActionLog;
 import com.linln.admin.core.shiro.ShiroUtil;
 import com.linln.admin.core.utils.UpdateTool;
 import com.linln.admin.system.domain.Dept;
+import com.linln.admin.system.domain.Glass;
 import com.linln.admin.system.domain.Role;
 import com.linln.admin.system.domain.User;
 import com.linln.admin.system.repository.UserRepository;
 import com.linln.admin.system.service.DeptService;
+import com.linln.admin.system.service.GlassService;
 import com.linln.admin.system.service.RoleService;
 import com.linln.admin.system.service.UserService;
 import com.linln.admin.system.validator.UserForm;
@@ -62,6 +64,8 @@ public class UserController {
 
     @Autowired
     private DeptService deptService;
+    @Autowired
+    private GlassService glassService;
 
     /**
      * 列表页面
@@ -358,6 +362,65 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             throw new ResultException(ResultEnum.STATUS_ERROR);
         }
+    }
+
+
+
+    /**
+     * 跳转到班级分配页面
+     */
+    @GetMapping("/glass")
+    @RequiresPermissions("/user/glass")
+    public String toGlass(@RequestParam(value = "ids") Long id, Model model) {
+        // 获取指定用户角色列表
+        User user = userService.getId(id);
+        Set<Glass> authGlasses = user.getGlasses();
+        // 获取全部班级
+        Sort sort = new Sort(Sort.Direction.ASC, "createDate");
+        List<Glass> list = glassService.getList(sort);
+        // 融合两项数据
+        list.forEach(glass -> {
+            if (authGlasses.contains(glass)) {
+                glass.setRemark("auth:true");
+            } else {
+                glass.setRemark("");
+            }
+        });
+
+        model.addAttribute("id", id);
+        model.addAttribute("list", list);
+        return "/system/user/role";
+    }
+
+    /**
+     * 保存班级分配信息
+     */
+    @PostMapping("/glasss")
+    @RequiresPermissions("/user/glasss")
+    @ResponseBody
+    @ActionLog(key = UserAction.EDIT_GLASS, action = UserAction.class)
+    public ResultVo authGlass(
+            @RequestParam(value = "id", required = true) Long id,
+            @RequestParam(value = "glassId", required = false) List<Long> glassIds) {
+
+        // 不允许操作超级管理员数据
+        if (id.equals(AdminConst.ADMIN_ID) &&
+                !ShiroUtil.getSubject().getId().equals(AdminConst.ADMIN_ID)) {
+            throw new ResultException(ResultEnum.NO_ADMIN_AUTH);
+        }
+
+        // 将查询的数据关联起来
+        User user = userService.getId(id);
+        List<Glass> glassList = null;
+        if (glassIds != null) {
+            glassList = glassService.getIdList(glassIds);
+            user.setGlasses(new HashSet<>(glassList));
+        } else {
+            user.setGlasses(null);
+        }
+        // 保存数据
+        userService.save(user);
+        return ResultVoUtil.SAVE_SUCCESS;
     }
 
 

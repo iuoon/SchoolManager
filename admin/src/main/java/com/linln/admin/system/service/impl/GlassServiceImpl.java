@@ -2,6 +2,7 @@ package com.linln.admin.system.service.impl;
 
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.system.domain.Glass;
+import com.linln.admin.system.domain.Role;
 import com.linln.admin.system.repository.GlassRepository;
 import com.linln.admin.system.service.GlassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,16 @@ public class GlassServiceImpl implements GlassService {
     @Transactional
     public Integer updateStatus(StatusEnum statusEnum, List<Long> idList){
         return glassRepository.updateStatus(statusEnum.getCode(),idList);
+    }
+
+    @Override
+    public List<Glass> getList(Sort sort) {
+        return glassRepository.findAllByStatus(sort,StatusEnum.OK.getCode());
+    }
+
+    @Override
+    public List<Glass> getIdList(List<Long> ids) {
+        return glassRepository.findByIdInAndStatus(ids, StatusEnum.OK.getCode());
     }
 }
 
