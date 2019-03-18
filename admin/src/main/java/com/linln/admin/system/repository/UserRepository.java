@@ -1,6 +1,7 @@
 package com.linln.admin.system.repository;
 
 import com.linln.admin.system.domain.Dept;
+import com.linln.admin.system.domain.Glass;
 import com.linln.admin.system.domain.Role;
 import com.linln.admin.system.domain.User;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -45,4 +46,6 @@ public interface UserRepository extends BaseRepository<User, Long>, JpaSpecifica
 
 
     public List<User> findByRoles(Set<Role> roles);
+
+    List<User> findByDeptAndGlasses(Dept dept, Set<Glass> glasses);
 }

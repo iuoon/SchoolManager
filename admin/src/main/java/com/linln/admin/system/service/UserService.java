@@ -2,11 +2,13 @@ package com.linln.admin.system.service;
 
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.system.domain.Dept;
+import com.linln.admin.system.domain.Glass;
 import com.linln.admin.system.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author wuyz
@@ -69,4 +71,6 @@ public interface UserService {
     Integer updateStatus(StatusEnum statusEnum, List<Long> idList);
 
     List<User> findByDept(Dept dept);
+
+    List<User> findByDeptAndGlasses(Dept dept, Set<Glass> glasses);
 }

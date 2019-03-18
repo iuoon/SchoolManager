@@ -72,7 +72,69 @@ public class UserController {
      */
     @GetMapping("/index")
     @RequiresPermissions("/user/index")
-    public String index(Model model, User user) {
+    public String index(Model model, User user,@RequestParam(value = "type", required = false) Integer type) {
+        // 设置部门动态查询
+        Dept dept = user.getDept();
+        List<Long> deptIn = null;
+        if(dept != null){
+            deptIn = new ArrayList<>();
+            deptIn.add(dept.getId());
+            List<Dept> deptList = deptService.getPidsLike(dept.getId());
+            for (Dept item : deptList) {
+                deptIn.add(item.getId());
+            }
+        }
+        user.setRoles(null);
+        // 获取用户列表
+        Page<User> list = userService.getPageList(user, deptIn);
+
+        // 封装数据
+        model.addAttribute("list", list.getContent());
+        model.addAttribute("page", list);
+        model.addAttribute("dept", dept);
+        return "/system/user/index";
+    }
+
+    @GetMapping("/indexAdmin")
+    @RequiresPermissions("/user/indexAdmin")
+    public String indexAdmin(Model model, User user) {
+        Set<Role> roles=new HashSet<>();
+        //查询管理员
+        Role role=new Role();
+        role.setId((long)1);
+        roles.add(role);
+        user.setRoles(roles);
+        // 设置部门动态查询
+        Dept dept = user.getDept();
+        List<Long> deptIn = null;
+        if(dept != null){
+            deptIn = new ArrayList<>();
+            deptIn.add(dept.getId());
+            List<Dept> deptList = deptService.getPidsLike(dept.getId());
+            for (Dept item : deptList) {
+                deptIn.add(item.getId());
+            }
+        }
+        // 获取用户列表
+        Page<User> list = userService.getPageList(user, deptIn);
+
+        // 封装数据
+        model.addAttribute("list", list.getContent());
+        model.addAttribute("page", list);
+        model.addAttribute("dept", dept);
+        return "/system/user/indexAdmin";
+    }
+
+
+    @GetMapping("/indexStu")
+    @RequiresPermissions("/user/indexStu")
+    public String indexStu(Model model, User user) {
+        Set<Role> roles=new HashSet<>();
+        //查询学生
+        Role role=new Role();
+        role.setId((long)3);
+        roles.add(role);
+        user.setRoles(roles);
 
         // 设置部门动态查询
         Dept dept = user.getDept();
@@ -93,7 +155,39 @@ public class UserController {
         model.addAttribute("list", list.getContent());
         model.addAttribute("page", list);
         model.addAttribute("dept", dept);
-        return "/system/user/index";
+        return "/system/user/indexStu";
+    }
+
+    @GetMapping("/indexTeacher")
+    @RequiresPermissions("/user/indexTeacher")
+    public String indexTeacher(Model model, User user) {
+        Set<Role> roles=new HashSet<>();
+        //查询管理员
+        Role role=new Role();
+        role.setId((long)2);
+        roles.add(role);
+        user.setRoles(roles);
+
+        // 设置部门动态查询
+        Dept dept = user.getDept();
+        List<Long> deptIn = null;
+        if(dept != null){
+            deptIn = new ArrayList<>();
+            deptIn.add(dept.getId());
+            List<Dept> deptList = deptService.getPidsLike(dept.getId());
+            for (Dept item : deptList) {
+                deptIn.add(item.getId());
+            }
+        }
+
+        // 获取用户列表
+        Page<User> list = userService.getPageList(user, deptIn);
+
+        // 封装数据
+        model.addAttribute("list", list.getContent());
+        model.addAttribute("page", list);
+        model.addAttribute("dept", dept);
+        return "/system/user/indexTeacher";
     }
 
     /**

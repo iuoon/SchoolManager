@@ -3,6 +3,8 @@ package com.linln.admin.system.service.impl;
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.core.web.PageSort;
 import com.linln.admin.system.domain.Dept;
+import com.linln.admin.system.domain.Glass;
+import com.linln.admin.system.domain.Role;
 import com.linln.admin.system.domain.User;
 import com.linln.admin.system.repository.UserRepository;
 import com.linln.admin.system.service.UserService;
@@ -15,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author wuyz
@@ -105,6 +105,11 @@ public class UserServiceImpl implements UserService {
                     deptIn.forEach(in::value);
                     preList.add(in);
                 }
+                if(user.getRoles() != null){
+                    SetJoin<User, Role> roles = root.join(root.getModel().getSet("roles", Role.class), JoinType.LEFT);
+                    Predicate in = roles.in(user.getRoles());
+                    preList.add(in);
+                }
 
                 // 数据状态
                 if(!user.getStatus().equals(StatusEnum.DELETE.getCode())){
@@ -157,4 +162,11 @@ public class UserServiceImpl implements UserService {
     public List<User> findByDept(Dept dept) {
         return userRepository.findByDept(dept);
     }
+
+    @Override
+    public List<User> findByDeptAndGlasses(Dept dept, Set<Glass> glasses) {
+        return userRepository.findByDeptAndGlasses(dept,glasses);
+    }
+
+
 }

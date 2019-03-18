@@ -1,8 +1,10 @@
 package com.linln.admin.system.service;
 
 import com.linln.admin.core.enums.StatusEnum;
+import com.linln.admin.system.domain.Dept;
 import com.linln.admin.system.domain.Glass;
 import com.linln.admin.system.domain.Role;
+import com.linln.admin.system.domain.User;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -29,5 +31,7 @@ public interface GlassService {
 
     @Transactional
     List<Glass> getIdList(List<Long> ids);
+
+    List<Glass> findByDept(Dept dept);
 }
 

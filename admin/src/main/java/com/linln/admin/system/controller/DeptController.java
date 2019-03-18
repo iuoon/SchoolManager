@@ -9,9 +9,11 @@ import com.linln.admin.core.log.annotation.ActionLog;
 import com.linln.admin.core.web.TimoExample;
 import com.linln.admin.system.domain.Course;
 import com.linln.admin.system.domain.Dept;
+import com.linln.admin.system.domain.Glass;
 import com.linln.admin.system.domain.User;
 import com.linln.admin.system.service.CourseService;
 import com.linln.admin.system.service.DeptService;
+import com.linln.admin.system.service.GlassService;
 import com.linln.admin.system.service.UserService;
 import com.linln.admin.system.validator.DeptForm;
 import com.linln.core.utils.FormBeanUtil;
@@ -19,6 +21,7 @@ import com.linln.core.utils.ResultVoUtil;
 import com.linln.core.vo.ResultVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
@@ -43,6 +46,8 @@ public class DeptController {
     private UserService userService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private GlassService glassService;
 
     /**
      * 跳转到列表页面
@@ -91,26 +96,48 @@ public class DeptController {
         ExampleMatcher matcher = ExampleMatcher.matching().
                 withMatcher("title", match -> match.contains());
 
-        // 获取用户列表
+        // 获取系别-->班级-->学生
         Example<Dept> example = TimoExample.of(dept, matcher);
         Sort sort = new Sort(Sort.Direction.ASC, "sort");
         List<Dept> list = deptService.getList(example, sort);
         List<Dept> list2=new ArrayList<>();
         for (Dept dt:list) {
             list2.add(dt);
-            List<User> users=userService.findByDept(dt);
-            int count=1;
-            for (User u:users) {
+            List<Glass> glasses=glassService.findByDept(dt);
+            for (Glass g:glasses) {
                 Dept dept1=new Dept();
-                dept1.setId(u.getId()*1000);
+
+                dept1.setId(g.getId());
+                Set<Glass> glassSet=new HashSet<>();
+                Glass glass=new Glass();
+                glass.setId(g.getId());
+                glassSet.add(glass);
+                List<User> users=userService.findByDeptAndGlasses(dept1,glassSet);
+
+                dept1.setId(g.getId()*1000);
                 dept1.setPid(dt.getId());
-                dept1.setTitle(u.getNickname());
-                dept1.setSort(count);
+                dept1.setTitle(g.getTitle());
+                dept1.setSort(1);
                 dept1.setPids(dt.getPids()+",["+dt.getId()+"]");
                 dept1.setStatus((byte)1);
-                dept1.setRemark(u.getId()+"");
+                dept1.setRemark(g.getId()+"");
                 list2.add(dept1);
-                count++;
+
+                for (User u:users) {
+                    System.out.println("-----------------------------------------------");
+                    System.out.println(u.getNickname());
+                    System.out.println("-----------------------------------------------");
+                    Dept dept2=new Dept();
+                    dept2.setId(u.getId()*100000);
+                    dept2.setPid(dt.getId());
+                    dept2.setTitle(u.getNickname());
+                    dept2.setSort(1);
+                    dept2.setPids(dept1.getPids()+",["+dt.getId()+"]");
+                    dept2.setStatus((byte)1);
+                    dept2.setRemark(u.getId()+"");
+                    list2.add(dept2);
+
+                }
             }
         }
         return ResultVoUtil.success(list2);

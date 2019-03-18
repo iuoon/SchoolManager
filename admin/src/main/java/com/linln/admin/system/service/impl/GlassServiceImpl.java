@@ -1,6 +1,7 @@
 package com.linln.admin.system.service.impl;
 
 import com.linln.admin.core.enums.StatusEnum;
+import com.linln.admin.system.domain.Dept;
 import com.linln.admin.system.domain.Glass;
 import com.linln.admin.system.domain.Role;
 import com.linln.admin.system.repository.GlassRepository;
@@ -78,6 +79,11 @@ public class GlassServiceImpl implements GlassService {
     @Override
     public List<Glass> getIdList(List<Long> ids) {
         return glassRepository.findByIdInAndStatus(ids, StatusEnum.OK.getCode());
+    }
+
+    @Override
+    public List<Glass> findByDept(Dept dept) {
+        return glassRepository.findByDept(dept);
     }
 }
 

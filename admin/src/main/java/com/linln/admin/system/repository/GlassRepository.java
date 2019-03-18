@@ -1,5 +1,6 @@
 package com.linln.admin.system.repository;
 
+import com.linln.admin.system.domain.Dept;
 import com.linln.admin.system.domain.Glass;
 import com.linln.admin.system.domain.Role;
 import com.linln.admin.system.repository.BaseRepository;
@@ -21,5 +22,8 @@ public interface GlassRepository extends BaseRepository<Glass, Long> {
      * @param ids id列表
      */
     public List<Glass> findByIdInAndStatus(List<Long> ids, Byte status);
+
+
+    List<Glass> findByDept(Dept dept);
 }
 
