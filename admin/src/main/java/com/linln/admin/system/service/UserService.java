@@ -72,5 +72,5 @@ public interface UserService {
 
     List<User> findByDept(Dept dept);
 
-    List<User> findByDeptAndGlasses(Dept dept, Set<Glass> glasses);
+    List<User> findByGlassesAndDept(Set<Glass> glasses,Dept dept);
 }

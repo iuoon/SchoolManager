@@ -47,5 +47,5 @@ public interface UserRepository extends BaseRepository<User, Long>, JpaSpecifica
 
     public List<User> findByRoles(Set<Role> roles);
 
-    List<User> findByDeptAndGlasses(Dept dept, Set<Glass> glasses);
+    public List<User> findByGlassesAndDept(Set<Glass> glasses,Dept dept);
 }

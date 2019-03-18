@@ -164,8 +164,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByDeptAndGlasses(Dept dept, Set<Glass> glasses) {
-        return userRepository.findByDeptAndGlasses(dept,glasses);
+    public List<User> findByGlassesAndDept(Set<Glass> glasses,Dept dept){
+        return userRepository.findByGlassesAndDept(glasses,dept);
     }
 
 

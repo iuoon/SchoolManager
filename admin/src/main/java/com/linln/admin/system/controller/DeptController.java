@@ -107,12 +107,11 @@ public class DeptController {
             for (Glass g:glasses) {
                 Dept dept1=new Dept();
 
-                dept1.setId(g.getId());
                 Set<Glass> glassSet=new HashSet<>();
                 Glass glass=new Glass();
                 glass.setId(g.getId());
                 glassSet.add(glass);
-                List<User> users=userService.findByDeptAndGlasses(dept1,glassSet);
+                List<User> users=userService.findByGlassesAndDept(glassSet,g.getDept());
 
                 dept1.setId(g.getId()*1000);
                 dept1.setPid(dt.getId());
@@ -124,15 +123,12 @@ public class DeptController {
                 list2.add(dept1);
 
                 for (User u:users) {
-                    System.out.println("-----------------------------------------------");
-                    System.out.println(u.getNickname());
-                    System.out.println("-----------------------------------------------");
                     Dept dept2=new Dept();
                     dept2.setId(u.getId()*100000);
                     dept2.setPid(dt.getId());
                     dept2.setTitle(u.getNickname());
                     dept2.setSort(1);
-                    dept2.setPids(dept1.getPids()+",["+dt.getId()+"]");
+                    dept2.setPids(dept1.getPids()+",["+dept1.getId()+"]");
                     dept2.setStatus((byte)1);
                     dept2.setRemark(u.getId()+"");
                     list2.add(dept2);
