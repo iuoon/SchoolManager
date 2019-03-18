@@ -2,6 +2,7 @@ package com.linln.admin.system.service.impl;
 
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.system.domain.Course;
+import com.linln.admin.system.domain.Dept;
 import com.linln.admin.system.domain.Role;
 import com.linln.admin.system.domain.User;
 import com.linln.admin.system.repository.CourseRepository;
@@ -85,6 +86,11 @@ public class CourseServiceImpl implements CourseService {
         Set<Role> roleSet=new HashSet<>();
         roleSet.add(role);
         return userRepository.findByRoles(roleSet);
+    }
+
+    @Override
+    public List<Course> findByDept(Dept dept) {
+        return courseRepository.findByDept(dept);
     }
 }
 

@@ -21,13 +21,13 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">学生姓名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="userId.nickname" th:value="${param.userId?.nickname}" placeholder="请输入学生姓名" autocomplete="off" class="layui-input">
+                            <input type="text" name="userId.nickname" th:value="${param.user?.nickname}" placeholder="请输入学生姓名" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">课程名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="courseId.name" th:value="${param.courseId?.name}" placeholder="请输入课程名称" autocomplete="off" class="layui-input">
+                            <input type="text" name="courseId.name" th:value="${param.course?.name}" placeholder="请输入课程名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -71,8 +71,8 @@
                     <td><label class="timo-checkbox"><input type="checkbox" th:value="${item.id}">
                         <i class="layui-icon layui-icon-ok"></i></label></td>
                     <td th:text="${item.id}">主键ID</td>
-                    <td th:text="${item.userId?.nickname}">学生姓名</td>
-                    <td th:text="${item.courseId?.name}">课程名称</td>
+                    <td th:text="${item.user?.nickname}">学生姓名</td>
+                    <td th:text="${item.course?.name}">课程名称</td>
                     <td th:text="${item.score}">学业基础分</td>
                     <td th:text="${item.behaviorScore}">行为基础分</td>
                     <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>

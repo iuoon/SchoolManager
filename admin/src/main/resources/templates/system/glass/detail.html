@@ -10,8 +10,14 @@
             <tr>
                 <th width='100px'>ID</th>
                 <td th:text="${glass.id}"></td>
-                <th width='100px'>班级名称编号</th>
-                <td>[[${glass.title}]]（[[${glass.name}]]）</td>
+                <th width='100px'>编号</th>
+                <td th:text="${glass.name}"></td>
+            </tr>
+            <tr>
+                <th>系别</th>
+                <td th:text="${glass.dept?.title}"></td>
+                <th>班级名称</th>
+                <td th:text="${glass.title}"></td>
             </tr>
             <tr>
                 <th>创建用户</th>

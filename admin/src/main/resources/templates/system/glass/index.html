@@ -52,6 +52,7 @@
                     </th>
                     <th class="sortable" data-field="title">编号</th>
                     <th class="sortable" data-field="title">班级名称</th>
+                    <th>系别</th>
                     <th class="sortable" data-field="createDate">创建时间</th>
                     <th class="sortable" data-field="updateDate">更新时间</th>
                     <th>操作</th>
@@ -63,6 +64,7 @@
                         <i class="layui-icon layui-icon-ok"></i></label></td>
                     <td th:text="${item.name}">编号</td>
                     <td th:text="${item.title}">班级名称</td>
+                    <td th:text="${item.dept?.title}">系别</td>
                     <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                     <td th:text="${#dates.format(item.updateDate, 'yyyy-MM-dd HH:mm:ss')}">更新时间</td>
                     <td>

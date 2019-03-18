@@ -15,11 +15,11 @@
                 <th>主键ID</th>
                 <td th:text="${score.id}"></td>
                 <th>学生姓名</th>
-                <td th:text="${score.userId}"></td>
+                <td th:text="${score.user?.nickname}"></td>
             </tr>
             <tr>
                 <th>课程名称</th>
-                <td th:text="${score.courseId}"></td>
+                <td th:text="${score.course?.name}"></td>
                 <th>学业基础分</th>
                 <td th:text="${score.score}"></td>
             </tr>

@@ -7,8 +7,10 @@ import com.linln.admin.core.log.action.SaveAction;
 import com.linln.admin.core.log.action.StatusAction;
 import com.linln.admin.core.log.annotation.ActionLog;
 import com.linln.admin.core.web.TimoExample;
+import com.linln.admin.system.domain.Course;
 import com.linln.admin.system.domain.Dept;
 import com.linln.admin.system.domain.User;
+import com.linln.admin.system.service.CourseService;
 import com.linln.admin.system.service.DeptService;
 import com.linln.admin.system.service.UserService;
 import com.linln.admin.system.validator.DeptForm;
@@ -39,6 +41,8 @@ public class DeptController {
     private DeptService deptService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CourseService courseService;
 
     /**
      * 跳转到列表页面
@@ -105,6 +109,42 @@ public class DeptController {
                 dept1.setPids(dt.getPids()+",["+dt.getId()+"]");
                 dept1.setStatus((byte)1);
                 dept1.setRemark(u.getId()+"");
+                list2.add(dept1);
+                count++;
+            }
+        }
+        return ResultVoUtil.success(list2);
+    }
+
+    /**
+     * 部门数据列表和课程列表
+     */
+    @GetMapping("/listCourse")
+    @RequiresPermissions("/dept/index")
+    @ResponseBody
+    public ResultVo listCourse(Dept dept) {
+        // 创建匹配器，进行动态查询匹配
+        ExampleMatcher matcher = ExampleMatcher.matching().
+                withMatcher("title", match -> match.contains());
+
+        // 获取用户列表
+        Example<Dept> example = TimoExample.of(dept, matcher);
+        Sort sort = new Sort(Sort.Direction.ASC, "sort");
+        List<Dept> list = deptService.getList(example, sort);
+        List<Dept> list2=new ArrayList<>();
+        for (Dept dt:list) {
+            list2.add(dt);
+            List<Course> courses=courseService.findByDept(dt);
+            int count=1;
+            for (Course c:courses) {
+                Dept dept1=new Dept();
+                dept1.setId(c.getId()*1000);
+                dept1.setPid(dt.getId());
+                dept1.setTitle(c.getName());
+                dept1.setSort(count);
+                dept1.setPids(dt.getPids()+",["+dt.getId()+"]");
+                dept1.setStatus((byte)1);
+                dept1.setRemark(c.getId()+"");
                 list2.add(dept1);
                 count++;
             }

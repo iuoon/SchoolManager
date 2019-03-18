@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:mo="https://gitee.com/aun/Timo">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <link rel="stylesheet" th:href="@{/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
 </head>
 <body>
 <div class="layui-form timo-compile">
@@ -10,7 +11,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
             <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="name"  placeholder="请输入角色编号" th:value="${glass?.name}">
+                <input class="layui-input" type="text" name="name"  placeholder="请输入编号" th:value="${glass?.name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">系别</label>
+            <div class="layui-input-inline">
+                <input class="layui-input select-tree" th:attr="data-url=@{/dept/list}, data-value=${glass?.dept?.id}"
+                       type="text" name="dept"  placeholder="请选择系别" th:value="${glass?.dept?.title}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -32,5 +40,12 @@
     </form>
 </div>
 <script th:replace="/common/template :: script"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/zTree_v3/js/jquery.ztree.core.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/timoTree.js}"></script>
+<script type="text/javascript">
+    // 树形菜单
+    $.fn.selectTree();
+</script>
 </body>
 </html>

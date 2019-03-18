@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.util.List;
 
 /**
@@ -75,6 +76,8 @@ public class ScoreController {
     @RequiresPermissions("/score/edit")
     public String toEdit(@PathVariable("id") Long id, Model model){
         Score score = scoreService.getId(id);
+        score.getCourse().setId(score.getCourse().getId()*1000);
+        score.getUser().setId(score.getUser().getId()*1000);
         model.addAttribute("score",score);
         return "/system/score/add";
     }
@@ -87,6 +90,16 @@ public class ScoreController {
     @RequiresPermissions({"/score/add","/score/edit"})
     @ResponseBody
     public ResultVo save(@Validated ScoreForm scoreForm){
+        if(scoreForm.getUser().getId() == null || scoreForm.getUser().getId()/1000<1){
+            return ResultVoUtil.error("请选择学生");
+        }
+
+        if(scoreForm.getCourse().getId() == null || scoreForm.getCourse().getId()/1000<1){
+            return ResultVoUtil.error("请选择课程");
+        }
+
+        scoreForm.getUser().setId(scoreForm.getUser().getId()/1000);
+        scoreForm.getCourse().setId(scoreForm.getCourse().getId()/1000);
 
         // 将验证的数据复制给实体类
         Score score = new Score();

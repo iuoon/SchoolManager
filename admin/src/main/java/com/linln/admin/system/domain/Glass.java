@@ -28,6 +28,11 @@ public class Glass implements Serializable {
 	private Long id;
 	// 标题
 	private String title;
+	// 系别
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="dept_id")
+	@JsonIgnore
+	private Dept dept;
 	// 标题
 	private String name;
 	// 备注

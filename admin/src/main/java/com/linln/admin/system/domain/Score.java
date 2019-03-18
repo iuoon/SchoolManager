@@ -30,12 +30,17 @@ public class Score implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	@JsonIgnore
-	private User userId;
+	private User user;
 	// 课程名称
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="course_id")
 	@JsonIgnore
-	private Course courseId;
+	private Course course;
+	//班级
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="glass_id")
+	@JsonIgnore
+	private Glass glass;
 	// 学业基础分
 	private Integer score;
 	// 行为基础分
