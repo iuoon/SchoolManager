@@ -21,13 +21,13 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">学生姓名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="userId.nickname" th:value="${param.user?.nickname}" placeholder="请输入学生姓名" autocomplete="off" class="layui-input">
+                            <input type="text" name="user.nickname" th:value="${param.user?.nickname}" placeholder="请输入学生姓名" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">课程名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="courseId.name" th:value="${param.course?.name}" placeholder="请输入课程名称" autocomplete="off" class="layui-input">
+                            <input type="text" name="course.name" th:value="${param.course?.name}" placeholder="请输入课程名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -59,6 +59,7 @@
                     <th>主键ID</th>
                     <th>学生姓名</th>
                     <th>课程名称</th>
+                    <th>班级名称</th>
                     <th>学业基础分</th>
                     <th>行为基础分</th>
                     <th>创建时间</th>
@@ -73,6 +74,7 @@
                     <td th:text="${item.id}">主键ID</td>
                     <td th:text="${item.user?.nickname}">学生姓名</td>
                     <td th:text="${item.course?.name}">课程名称</td>
+                    <td th:text="${item.glass?.title}">班级名称</td>
                     <td th:text="${item.score}">学业基础分</td>
                     <td th:text="${item.behaviorScore}">行为基础分</td>
                     <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>

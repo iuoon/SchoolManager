@@ -45,6 +45,8 @@ public class Score implements Serializable {
 	private Integer score;
 	// 行为基础分
 	private Integer behaviorScore;
+	// 年份
+	private Integer year;
 	// 备注
 	private Long remark;
 	// 创建时间

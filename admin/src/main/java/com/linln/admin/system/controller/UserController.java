@@ -1,6 +1,7 @@
 package com.linln.admin.system.controller;
 
 import com.linln.admin.core.constant.AdminConst;
+import com.linln.admin.core.enums.AuditStatusEnum;
 import com.linln.admin.core.enums.ResultEnum;
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.core.enums.UserIsRoleEnum;
@@ -93,6 +94,35 @@ public class UserController {
         model.addAttribute("page", list);
         model.addAttribute("dept", dept);
         return "/system/user/index";
+    }
+
+    /**
+     * 评优管理页面
+     */
+    @GetMapping("/indexGood")
+    @RequiresPermissions("/user/indexGood")
+    public String indexGood(Model model, User user,@RequestParam(value = "type", required = false) Integer type) {
+        // 设置部门动态查询
+        Dept dept = user.getDept();
+        List<Long> deptIn = null;
+        if(dept != null){
+            deptIn = new ArrayList<>();
+            deptIn.add(dept.getId());
+            List<Dept> deptList = deptService.getPidsLike(dept.getId());
+            for (Dept item : deptList) {
+                deptIn.add(item.getId());
+            }
+        }
+        user.setRoles(null);
+        user.setAuditstatus(1);
+        // 获取用户列表
+        Page<User> list = userService.getPageList(user, deptIn);
+
+        // 封装数据
+        model.addAttribute("list", list.getContent());
+        model.addAttribute("page", list);
+        model.addAttribute("dept", dept);
+        return "/system/user/indexGood";
     }
 
     @GetMapping("/indexAdmin")
@@ -458,6 +488,35 @@ public class UserController {
         }
     }
 
+    /**
+     * 设置一条或者多条数据的状态
+     */
+    @RequestMapping("/good/{param}")
+    @RequiresPermissions("/user/good")
+    @ResponseBody
+    @ActionLog(name = "用户状态", action = StatusAction.class)
+    public ResultVo auditStatus(
+            @PathVariable("param") String param,
+            @RequestParam(value = "ids", required = false) List<Long> idList) {
+        // 不能修改超级管理员状态
+        if (idList.contains(AdminConst.ADMIN_ID)) {
+            throw new ResultException(ResultEnum.NO_ADMIN_STATUS);
+        }
+
+        try {
+            // 获取状态StatusEnum对象
+            AuditStatusEnum statusEnum = AuditStatusEnum.valueOf(param.toUpperCase());
+            // 更新状态
+            Integer count = userService.updateAuditStatus(statusEnum, idList);
+            if (count > 0) {
+                return ResultVoUtil.success(statusEnum.getMessage() + "成功");
+            } else {
+                return ResultVoUtil.error(statusEnum.getMessage() + "失败，请重新操作");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new ResultException(ResultEnum.STATUS_ERROR);
+        }
+    }
 
 
     /**

@@ -48,14 +48,14 @@
                     <div class="btn-group-left">
                         <button class="layui-btn open-popup-param" data-title="修改密码" th:attr="data-url=@{/user/pwd}"  data-size="456,242">
                             <i class="fa fa-refresh"></i> 修改密码</button>
-                        <button class="layui-btn open-popup-param" data-type="radio" data-title="角色分配" th:attr="data-url=@{/user/role}" data-size="480,400">
+                        <!--<button class="layui-btn open-popup-param" data-type="radio" data-title="角色分配" th:attr="data-url=@{/user/role}" data-size="480,400">
                             <i class="fa fa-user-secret"></i> 角色分配</button>
-                        <button class="layui-btn open-popup-param" data-type="radio" data-title="班级分配" th:attr="data-url=@{/user/glass}" data-size="480,400">
-                            <i class="fa fa-user-secret"></i> 班级分配</button>
+                        <button class="layui-btn open-popup-param" data-type="radio" data-title="角色分配" th:attr="data-url=@{/user/glass}" data-size="480,400">
+                            <i class="fa fa-user-secret"></i> 班级分配</button>-->
                     </div>
                     <div class="btn-group-right">
-                        <button class="layui-btn open-popup" data-title="添加用户" th:attr="data-url=@{/user/add}"  data-size="600,520">
-                            <i class="fa fa-plus"></i> 添加</button>
+                        <!--<button class="layui-btn open-popup" data-title="添加用户" th:attr="data-url=@{/user/add}"  data-size="600,520">
+                            <i class="fa fa-plus"></i> 添加</button>-->
                         <div class="btn-group">
                             <button class="layui-btn">操作<span class="caret"></span></button>
                             <dl class="layui-nav-child layui-anim layui-anim-upbit">
@@ -81,7 +81,6 @@
                     <th class="sortable" data-field="phone">电话</th>
                     <th class="sortable" data-field="email">邮箱</th>
                     <th data-field="roles">角色</th>
-                    <th data-field="glasses">班级</th>
                     <th class="sortable" data-field="createDate">创建时间</th>
                     <th>状态</th>
                     <th>操作</th>
@@ -98,7 +97,6 @@
                     <td th:text="${item.phone}">电话</td>
                     <td th:text="${item.email}">邮箱</td>
                     <td><a th:each="item1:${item.roles}"><span th:text="${item1.title}"></span>&nbsp;&nbsp;</a></td>
-                    <td><a th:each="item2:${item.glasses}"><span th:text="${item2.title}"></span>&nbsp;&nbsp;</a></td>
                     <td th:text="${#dates.format(item.createDate, 'yyyy-MM-dd HH:mm:ss')}">创建时间</td>
                     <td th:text="${#dicts.dataStatus(item.status)}">状态</td>
                     <td>

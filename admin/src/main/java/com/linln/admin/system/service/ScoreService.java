@@ -2,11 +2,13 @@ package com.linln.admin.system.service;
 
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.system.domain.Score;
+import com.linln.admin.system.domain.ScorePrize;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wuyz
@@ -22,5 +24,9 @@ public interface ScoreService {
 
     @Transactional
     Integer updateStatus(StatusEnum statusEnum, List<Long> idList);
+
+    List<Map<String, Object>> selectGlassUserCount();
+
+    List<Map<String, Object>> selectScorePrizeByGlassId(Long glassId, Integer size);
 }
 

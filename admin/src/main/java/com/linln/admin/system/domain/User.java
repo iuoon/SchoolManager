@@ -74,4 +74,8 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "glass_id"))
     @JsonIgnore
     private Set<Glass> glasses = new HashSet<>(0);
+    //评优审核状态
+    private Integer auditstatus;
+    //荣誉称号
+    private String honor;
 }

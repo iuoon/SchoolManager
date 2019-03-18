@@ -1,5 +1,6 @@
 package com.linln.admin.system.service.impl;
 
+import com.linln.admin.core.enums.AuditStatusEnum;
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.core.web.PageSort;
 import com.linln.admin.system.domain.Dept;
@@ -110,6 +111,9 @@ public class UserServiceImpl implements UserService {
                     Predicate in = roles.in(user.getRoles());
                     preList.add(in);
                 }
+                if(user.getAuditstatus() !=null){
+                    preList.add(cb.equal(root.get("auditstatus").as(Integer.class), user.getAuditstatus()));
+                }
 
                 // 数据状态
                 if(!user.getStatus().equals(StatusEnum.DELETE.getCode())){
@@ -166,6 +170,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByGlassesAndDept(Set<Glass> glasses,Dept dept){
         return userRepository.findByGlassesAndDept(glasses,dept);
+    }
+
+    @Override
+    @Transactional
+    public Integer updateAuditStatus(AuditStatusEnum statusEnum, List<Long> idList) {
+        return userRepository.updateAuditStatus(statusEnum.getCode(),idList);
     }
 
 

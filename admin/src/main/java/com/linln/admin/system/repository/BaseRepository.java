@@ -1,5 +1,6 @@
 package com.linln.admin.system.repository;
 
+import com.linln.admin.core.enums.AuditStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -42,4 +43,9 @@ public interface BaseRepository<T, ID> extends JpaRepository<T,ID> {
     @Transactional
     @Query("update #{#entityName} set status = ?1  where id in ?2  and status <> 3")
     public Integer updateStatus(Byte status,List<Long> id);
+
+    @Modifying
+    @Transactional
+    @Query("update #{#entityName} set auditstatus = ?1  where id in ?2 ")
+    public Integer updateAuditStatus(Integer status, List<Long> idList);
 }

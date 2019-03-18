@@ -1,5 +1,6 @@
 package com.linln.admin.system.service;
 
+import com.linln.admin.core.enums.AuditStatusEnum;
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.system.domain.Dept;
 import com.linln.admin.system.domain.Glass;
@@ -73,4 +74,7 @@ public interface UserService {
     List<User> findByDept(Dept dept);
 
     List<User> findByGlassesAndDept(Set<Glass> glasses,Dept dept);
+
+    @Transactional
+    Integer updateAuditStatus(AuditStatusEnum statusEnum, List<Long> idList);
 }

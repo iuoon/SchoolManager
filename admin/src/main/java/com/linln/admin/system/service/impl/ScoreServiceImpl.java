@@ -2,6 +2,7 @@ package com.linln.admin.system.service.impl;
 
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.system.domain.Score;
+import com.linln.admin.system.domain.ScorePrize;
 import com.linln.admin.system.repository.ScoreRepository;
 import com.linln.admin.system.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wuyz
@@ -67,6 +69,16 @@ public class ScoreServiceImpl implements ScoreService {
     @Transactional
     public Integer updateStatus(StatusEnum statusEnum, List<Long> idList){
         return scoreRepository.updateStatus(statusEnum.getCode(),idList);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectGlassUserCount() {
+        return scoreRepository.selectGlassUserCount();
+    }
+
+    @Override
+    public List<Map<String, Object>> selectScorePrizeByGlassId(Long glassId, Integer size) {
+        return scoreRepository.selectScorePrizeByGlassId(glassId,size);
     }
 }
 
