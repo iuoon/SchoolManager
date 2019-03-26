@@ -101,6 +101,7 @@ public class DeptController {
         Sort sort = new Sort(Sort.Direction.ASC, "sort");
         List<Dept> list = deptService.getList(example, sort);
         List<Dept> list2=new ArrayList<>();
+        int count=1;
         for (Dept dt:list) {
             list2.add(dt);
             List<Glass> glasses=glassService.findByDept(dt);
@@ -116,23 +117,25 @@ public class DeptController {
                 dept1.setId(g.getId()*1000);
                 dept1.setPid(dt.getId());
                 dept1.setTitle(g.getTitle());
-                dept1.setSort(1);
+                dept1.setSort(count);
                 dept1.setPids(dt.getPids()+",["+dt.getId()+"]");
                 dept1.setStatus((byte)1);
                 dept1.setRemark(g.getId()+"");
                 list2.add(dept1);
+
 
                 for (User u:users) {
                     Dept dept2=new Dept();
                     dept2.setId(u.getId()*100000);
                     dept2.setPid(dept1.getId());
                     dept2.setTitle(u.getNickname());
-                    dept2.setSort(1);
+                    dept2.setSort(count);
                     dept2.setPids(dept1.getPids()+",["+dept1.getId()+"]");
                     dept2.setStatus((byte)1);
                     dept2.setRemark(u.getId()+"");
                     list2.add(dept2);
 
+                    count++;
                 }
             }
         }

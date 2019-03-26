@@ -78,4 +78,6 @@ public class User implements Serializable {
     private Integer auditstatus;
     //荣誉称号
     private String honor;
+    //学号
+    private String stucode;
 }

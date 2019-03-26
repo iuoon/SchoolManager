@@ -491,7 +491,7 @@ public class UserController {
     /**
      * 设置一条或者多条数据的状态
      */
-    @RequestMapping("/good/{param}")
+    @RequestMapping("/auditGood/{param}")
     @RequiresPermissions("/user/good")
     @ResponseBody
     @ActionLog(name = "用户状态", action = StatusAction.class)
@@ -516,6 +516,51 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             throw new ResultException(ResultEnum.STATUS_ERROR);
         }
+    }
+
+    /**
+     * 跳转到申请评优页面
+     */
+    @GetMapping("/good")
+    @RequiresPermissions("/user/good")
+    public String toApplyGood(Model model,
+                                 @RequestParam(value = "ids", required = false) List<Long> idList) {
+        model.addAttribute("idList", idList);
+        return "/system/user/applyGood";
+    }
+
+    /**
+     * 申请评优
+     */
+    @PostMapping("/good")
+    @RequiresPermissions("/user/good")
+    @ResponseBody
+    @ActionLog(key = UserAction.APPLY_GOOD, action = UserAction.class)
+    public ResultVo applyGood(String honor,
+                                 @RequestParam(value = "ids", required = false) List<Long> idList) {
+
+        // 判断密码是否为空
+        if (honor.isEmpty() ) {
+            throw new ResultException(ResultEnum.HONOR_NULL);
+        }
+
+        // 不允许操作超级管理员数据
+        if (idList.contains(AdminConst.ADMIN_ID) &&
+                !ShiroUtil.getSubject().getId().equals(AdminConst.ADMIN_ID)) {
+            throw new ResultException(ResultEnum.NO_ADMIN_AUTH);
+        }
+
+        // 将查询的数据关联起来
+        List<User> userList = userService.getIdList(idList);
+        userList.forEach(user -> {
+            user.setAuditstatus(1);
+            user.setHonor(honor);
+        });
+
+        // 保存数据
+        userService.save(userList);
+        return ResultVoUtil.success("修改成功");
+
     }
 
 

@@ -16,18 +16,18 @@
                        type="text" name="user.id"  placeholder="请选择系别" th:value="${score?.user?.nickname}">
             </div>
         </div>
-        <div class="layui-form-item">
+<!--        <div class="layui-form-item">
             <label class="layui-form-label">课程名称</label>
             <div class="layui-input-inline">
                 <input class="layui-input select-tree" th:attr="data-url=@{/dept/listCourse}, data-value=${score?.course?.id}"
                        type="text" name="course.id"  placeholder="请选择课程" th:value="${score?.course?.name}">
             </div>
-        </div>
+        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">班级名称</label>
             <div class="layui-input-inline">
                 <input class="layui-input select-tree" th:attr="data-url=@{/dept/listGlass}, data-value=${score?.glass?.id}"
-                       type="text" name="user.id"  placeholder="请选择班级" th:value="${score?.glass?.title}">
+                       type="text" name="glass.id"  placeholder="请选择班级" th:value="${score?.glass?.title}">
             </div>
         </div>
         <div class="layui-form-item">

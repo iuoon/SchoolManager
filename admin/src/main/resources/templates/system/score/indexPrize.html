@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:mo="https://gitee.com/aun/Timo">
 <head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+    <link rel="stylesheet" th:href="@{/css/code.css}">
+    <link rel="stylesheet" th:href="@{/lib/formSelects-v4/formSelects-v4.css}">
+    <link rel="stylesheet" th:href="@{/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
 </head>
 <body class="timo-layout-page">
     <div class="layui-card">
@@ -12,7 +15,23 @@
         <div class="layui-card-body">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block timo-search-status">
+                            <select class="timo-search-select" name="status" mo:dict="SEARCH_STATUS" mo-selected="${param.status}"></select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">班级</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="glass.id" th:attr="data-url=@{/dept/listGlass}, data-value=${score?.glass?.id}" placeholder="请选择班级"  class="layui-input select-tree" th:value="${score?.glass?.title}" >
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn timo-search-btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="pull-right screen-btn-group">
 
@@ -25,22 +44,32 @@
                         <label class="timo-checkbox"><input type="checkbox">
                             <i class="layui-icon layui-icon-ok"></i></label>
                     </th>
-                    <th>学生姓名</th>
-                    <th>班级名称</th>
-                    <th>获奖等级</th>
+                    <th>班级</th>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>获奖情况</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="item:${list}">
                     <th></th>
-                    <td th:text="${item.nickname}">学生姓名</td>
-                    <td th:text="${item.title}">班级名称</td>
-                    <td th:text="${item.level}">获奖等级</td>
+                    <td th:text="${item.glass?.title}">班级</td>
+                    <td th:text="${item.user?.username}">工号</td>
+                    <td th:text="${item.user?.nickname}">姓名</td>
+                    <td th:text="${item.levelName}">获奖情况</td>
                 </tr>
                 </tbody>
             </table>
+            <div th:replace="/common/fragment :: page"></div>
         </div>
     </div>
 <script th:replace="/common/template :: script"></script>
+    <script type="text/javascript" th:src="@{/js/plugins/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/zTree_v3/js/jquery.ztree.core.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/timoTree.js}"></script>
+    <script type="text/javascript">
+        // 树形菜单
+        $.fn.selectTree();
+    </script>
 </body>
 </html>

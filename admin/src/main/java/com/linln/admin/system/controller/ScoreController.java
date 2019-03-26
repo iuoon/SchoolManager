@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.linln.admin.core.enums.ResultEnum;
 import com.linln.admin.core.enums.StatusEnum;
 import com.linln.admin.core.exception.ResultException;
+import com.linln.admin.core.utils.SMUtil;
 import com.linln.admin.core.web.TimoExample;
 import com.linln.admin.system.domain.Score;
 import com.linln.admin.system.domain.ScorePrize;
@@ -57,7 +58,7 @@ public class ScoreController {
 
         // 获取成绩管理列表
         Example<Score> example = TimoExample.of(score, matcher);
-        Page<Score> list = scoreService.getPageList(example, pageIndex, pageSize);
+        Page<Score> list = scoreService.getPageList(score, pageIndex, pageSize);
 
         // 封装数据
         model.addAttribute("list",list.getContent());
@@ -71,7 +72,10 @@ public class ScoreController {
                         @RequestParam(value="page",defaultValue="1") int pageIndex,
                         @RequestParam(value="size",defaultValue="10") int pageSize){
 
-        List<ScorePrize> list=new ArrayList<>();
+        if(score.getGlass() != null){
+            score.getGlass().setId(score.getGlass().getId()/1000);
+        }
+
         List<Map<String, Object>> listGlass=scoreService.selectGlassUserCount();
         for (Map<String, Object> map:listGlass){
             Long id = Long.parseLong(map.get("id").toString());
@@ -83,26 +87,38 @@ public class ScoreController {
             int c2= (int) Math.rint(count*0.04);
             int c3= (int) Math.rint(count*0.06);
 
-            List<Map<String, Object>> list1=scoreService.selectScorePrizeByGlassId(id,c1+c2+c3);
-            int i=1;
-            for(Map<String, Object> map1:list1){
-                ScorePrize scorePrize=JSONObject.parseObject(JSON.toJSONString(map1),ScorePrize.class);
-                if(i<=c1){
-                    scorePrize.setLevel("一等奖");
-                }
-                if(i>c1 && i<=c2){
-                    scorePrize.setLevel("二等奖");
-                }
-                if(i>c2 && i<=c3){
-                    scorePrize.setLevel("三等奖");
-                }
-                list.add(scorePrize);
-                i++;
-            }
+            scoreService.updatePrizeLevel(1,id,0,c1);
+            scoreService.updatePrizeLevel(2,id,c1,c2);
+            scoreService.updatePrizeLevel(3,id,c1+c2,c3);
+
 
         }
+        // 创建匹配器，进行动态查询匹配
+        ExampleMatcher matcher = ExampleMatcher.matching().
+                withMatcher("user.nickname", match -> match.contains()).
+                withMatcher("course.name", match -> match.contains());
+        Example<Score> example = TimoExample.of(score, matcher);
+        score.setPrizeLevel(1);
+        // 获取成绩管理列表
 
-        model.addAttribute("list",list);
+        Page<Score> list = scoreService.getPageList(score, pageIndex, pageSize);
+        List<Score> scoreList=list.getContent();
+        for (Score sc:scoreList) {
+            if(sc.getPrizeLevel().equals(1)){
+                sc.setLevelName("一等奖");
+            }
+            if(sc.getPrizeLevel().equals(2)){
+                sc.setLevelName("二等奖");
+            }
+            if(sc.getPrizeLevel().equals(3)){
+                sc.setLevelName("三等奖");
+            }
+        }
+
+        // 封装数据
+        model.addAttribute("list",scoreList);
+        model.addAttribute("page",list);
+
         return "/system/score/indexPrize";
     }
 
@@ -122,7 +138,7 @@ public class ScoreController {
     @RequiresPermissions("/score/edit")
     public String toEdit(@PathVariable("id") Long id, Model model){
         Score score = scoreService.getId(id);
-        score.getCourse().setId(score.getCourse().getId()*1000);
+        /*score.getCourse().setId(score.getCourse().getId()*1000);*/
         score.getGlass().setId(score.getGlass().getId()*1000);
         score.getUser().setId(score.getUser().getId()*100000);
         model.addAttribute("score",score);
@@ -141,18 +157,25 @@ public class ScoreController {
             return ResultVoUtil.error("请选择学生");
         }
 
-        if(scoreForm.getCourse().getId() == null || scoreForm.getCourse().getId()/1000<1){
+        /*if(scoreForm.getCourse().getId() == null || scoreForm.getCourse().getId()/1000<1){
             return ResultVoUtil.error("请选择课程");
-        }
+        }*/
 
         if(scoreForm.getGlass().getId() == null || scoreForm.getGlass().getId()/1000<1){
             return ResultVoUtil.error("请选择班级");
         }
+        if(scoreForm.getScore() == null){
+            return ResultVoUtil.error("请填写学业基础分");
+        }
+        if(scoreForm.getBehaviorScore() == null){
+            return ResultVoUtil.error("请填写行为基础分");
+        }
 
         scoreForm.getUser().setId(scoreForm.getUser().getId()/100000);
-        scoreForm.getCourse().setId(scoreForm.getCourse().getId()/1000);
+        /*scoreForm.getCourse().setId(scoreForm.getCourse().getId()/1000);*/
         scoreForm.getGlass().setId(scoreForm.getGlass().getId()/1000);
 
+        scoreForm.setTotalScore(scoreForm.getScore()+scoreForm.getBehaviorScore());
         // 将验证的数据复制给实体类
         Score score = new Score();
         if(scoreForm.getId() != null){

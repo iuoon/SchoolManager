@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+<div class="layui-form timo-compile">
+    <form th:action="@{/user/good}">
+        <input th:each="id:${idList}" type="hidden" name="ids" th:value="${id}"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">荣誉名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="honor" placeholder="请输入荣誉名称">
+            </div>
+        </div>
+        <div class="layui-form-item timo-finally">
+            <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 确认申请</button>
+            <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 取消</button>
+        </div>
+    </form>
+</div>
+<script th:replace="/common/template :: script"></script>
+</body>
+</html>

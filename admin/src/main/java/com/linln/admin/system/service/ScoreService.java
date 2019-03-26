@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface ScoreService {
 
-    Page<Score> getPageList(Example<Score> example, Integer pageIndex, Integer pageSize);
+    Page<Score> getPageList(Score score, Integer pageIndex, Integer pageSize);
 
     Score getId(Long id);
 
@@ -28,5 +28,7 @@ public interface ScoreService {
     List<Map<String, Object>> selectGlassUserCount();
 
     List<Map<String, Object>> selectScorePrizeByGlassId(Long glassId, Integer size);
+
+    int updatePrizeLevel(Integer prizeLevel,Long glassId,Integer s1,Integer s2);
 }
 

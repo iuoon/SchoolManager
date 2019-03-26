@@ -7,13 +7,13 @@ public class ScorePrize {
 
     private String nickname;
     private String title;
-    private Integer totalscore;
+    private Integer totalScore;
     private String level;
 
-    public ScorePrize(String nickname,String title,Integer totalscore,String level) {
+    public ScorePrize(String nickname,String title,Integer totalScore,String level) {
         this.nickname=nickname;
         this.title=title;
-        this.totalscore=totalscore;
+        this.totalScore=totalScore;
         this.level=level;
     }
 

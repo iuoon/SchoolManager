@@ -42,9 +42,11 @@ public class Score implements Serializable {
 	@JsonIgnore
 	private Glass glass;
 	// 学业基础分
-	private Integer score;
+	private Double score;
 	// 行为基础分
-	private Integer behaviorScore;
+	private Double behaviorScore;
+	// 总分
+	private Double totalScore;
 	// 年份
 	private Integer year;
 	// 备注
@@ -70,4 +72,8 @@ public class Score implements Serializable {
 	// 数据状态
 	private Byte status = StatusEnum.OK.getCode();
 
+	// 获奖等级
+	private Integer prizeLevel;
+
+	private String levelName;
 }

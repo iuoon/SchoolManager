@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
                     preList.add(in);
                 }
                 if(user.getAuditstatus() !=null){
-                    preList.add(cb.equal(root.get("auditstatus").as(Integer.class), user.getAuditstatus()));
+                    preList.add(cb.ge(root.get("auditstatus").as(Integer.class), user.getAuditstatus()));
                 }
 
                 // 数据状态

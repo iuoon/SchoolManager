@@ -27,6 +27,7 @@ public class UserAction extends ActionMap {
     public static final String EDIT_ROLE = "edit_role";
     public static final String EDIT_TEACHER = "edit_teacher";
     public static final String EDIT_GLASS = "edit_glass";
+    public static final String APPLY_GOOD = "apply_good";
 
     @Override
     public void init() {
@@ -42,6 +43,8 @@ public class UserAction extends ActionMap {
         putMethod(EDIT_TEACHER, new BusinessMethod("教师分配","editTeacher"));
         // 分配班级
         putMethod(EDIT_GLASS, new BusinessMethod("班级分配","editGlass"));
+        // 申请评优
+        putMethod(APPLY_GOOD, new BusinessMethod("申请评优","applyGood"));
     }
 
     // 用户登录行为方法

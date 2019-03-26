@@ -88,9 +88,13 @@
                     <td><a th:each="item1:${item.roles}"><span th:text="${item1.title}"></span>&nbsp;&nbsp;</a></td>
                     <td><a th:each="item2:${item.glasses}"><span th:text="${item2.title}"></span>&nbsp;&nbsp;</a></td>
                     <td th:text="${item.honor}">荣誉</td>
-                    <td>
-                        <a class="ajax-get" th:attr="data-msg='确定评优审核通过：'+${item.nickname}" th:href="@{/user/good/ok(ids=${item.id})}">通过</a>
-                        <a class="ajax-get" th:attr="data-msg='确定不通过:'+${item.nickname}" th:href="@{/user/good/cancal(ids=${item.id})}">不通过</a>
+                    <td th:if="${item.auditstatus gt 1}">
+                        <span th:if="${item.auditstatus==2}" style="color: #00B83F">评优通过</span>
+                        <span th:if="${item.auditstatus==3}" style="color: #f5526c">评优不通过</span>
+                    </td>
+                    <td th:if="${item.auditstatus == 1}">
+                        <a class="ajax-get" th:attr="data-msg='确定评优审核通过：'+${item.nickname}" th:href="@{/user/auditGood/ok(ids=${item.id})}">通过</a>
+                        <a class="ajax-get" th:attr="data-msg='确定不通过:'+${item.nickname}" th:href="@{/user/auditGood/cancal(ids=${item.id})}">不通过</a>
                     </td>
                 </tr>
                 </tbody>
