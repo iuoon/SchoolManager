@@ -1,8 +1,8 @@
 ALTER TABLE `sys_score`
-MODIFY COLUMN `score`  double(10,2) NULL DEFAULT 0 COMMENT 'Ñ§Òµ»ù´¡·Ö' AFTER `glass_id`,
-MODIFY COLUMN `behavior_score`  double(10,2) NULL DEFAULT 0 COMMENT 'ÐÐÎª»ù´¡·Ö' AFTER `score`;
+MODIFY COLUMN `score`  double(10,2) NULL DEFAULT 0 COMMENT 'å­¦ä¸šåŸºç¡€åˆ†' AFTER `glass_id`,
+MODIFY COLUMN `behavior_score`  double(10,2) NULL DEFAULT 0 COMMENT 'è¡Œä¸ºåŸºç¡€åˆ†' AFTER `score`;
 ALTER TABLE `sys_score`
-ADD COLUMN `total_score`  double(10,2) NULL DEFAULT 0.00 COMMENT '×Ü·Ö' AFTER `behavior_score`;
+ADD COLUMN `total_score`  double(10,2) NULL DEFAULT 0.00 COMMENT 'æ€»åˆ†' AFTER `behavior_score`;
 ALTER TABLE `sys_score`
-ADD COLUMN `prize_level`  int(11) NULL DEFAULT 0 COMMENT '»ñ½±µÈ¼¶ 1Ò»µÈ¼¶ 2¶þµÈ½± 3ÈýµÈ½±' AFTER `total_score`;
+ADD COLUMN `prize_level`  int(11) NULL DEFAULT 0 COMMENT 'ç­‰çº§' AFTER `total_score`;
 
