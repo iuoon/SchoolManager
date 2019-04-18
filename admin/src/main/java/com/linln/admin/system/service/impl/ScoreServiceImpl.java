@@ -59,7 +59,13 @@ public class ScoreServiceImpl implements ScoreService {
                     preList.add(cb.equal(root.get("glass").as(Glass.class), score.getGlass()));
                 }
                 if(score.getPrizeLevel() != null){
-                    preList.add(cb.ge(root.get("prizeLevel").as(Integer.class), score.getPrizeLevel() ));
+                    //preList.add(cb.ge(root.get("prizeLevel").as(Integer.class), score.getPrizeLevel() ));
+
+                    CriteriaBuilder.In<Integer> in = cb.in(root.get("prizeLevel"));
+                    in.value(1);
+                    in.value(2);
+                    in.value(3);
+                    preList.add(in);
                 }
 
                 // 数据状态
